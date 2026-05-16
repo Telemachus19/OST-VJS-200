@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- step 1 : link to js file for vues js -->
+    <script src="./vueversion3.js"></script>
+</head>
+<body>
+
+    <!-- <p id="mainp">{{message}}</p> -->
+    <!-- call method or use one of data properties inside html tag (between start tag and end tag use mastach expression {{method call | property name (data member name )}} )-->
+    <!-- <div id="mainapp">
+        <p>Our Message : {{message}}</p>
+        <p>Track : {{track}}</p>
+    </div> -->
+    <div id="mainapp">
+        <!-- <p>{{message}} - {{track}}</p>
+        <h4 title="{{branch}}">{{track}}</h4>
+        <p>Message : {{message}}</p> -->
+
+            <!-- Directives -->
+
+            <!-- <h3>{{track}} - {{branch}}</h3> -->
+            <!-- <p v-if="degree>90">Degree > 90</p>
+            <p v-if="degree<90">Degree < 90</p>
+            <p v-if="degree==90">Degree == 90</p> -->
+            <!-- v-if , v-else-if , v-else : must written sequentional : without any seperator html element-->
+            <!-- <p v-if="degree>90">Degree > 90</p>
+            <p v-else-if="degree<90">Degree < 90</p>
+            <p v-else>Degree == 90</p> -->
+
+            <!-- v-show-->
+            <!-- <p v-show="degree>90">Degree > 90</p>
+            <span>test show</span>
+            <p v-show="degree<90">Degree < 90</p>
+            <p v-show="degree==90">Degree == 90</p> -->
+
+            <!-- v-text | v-html => innertext , innerhtml-->
+                <!-- <div>
+                    {{welcomemessage}}
+                </div> -->
+                <!-- <div v-text="welcomemessage">
+                    
+                </div> -->
+                <!-- <div v-html="welcomemessage">
+                    
+                </div> -->
+                <!-- binding : 1) one way binding we can use it using directive v-bind:htmlattributename="propertyname"-->
+                <!-- <h3 v-bind:title="branch">{{track}}</h3> -->
+                <!-- short hand for v-bind:title="branch" => :title="branch"-->
+                <!-- <h3 :title="branch">{{track}}</h3> -->
+
+                <!-- two way binding : v-model="propertyname"-->
+                <!-- <p>Message : {{message}}</p> -->
+                <!-- <input type="text" :value="message"> -->
+                <!-- <input type="text" v-model="message"> -->
+
+
+                <!-- v-model : modifiers -->
+                <!--prevent | number | ctrl , .... -->
+                <!-- <a href="http://www.google.com" @click.prevent="showalert">visit google</a> -->
+                <!-- <input type="number" v-model.number="counter" min="1" max="20" step="1" > -->
+                <!-- 11=>"11"+10 => 1110-->
+                <!-- <p>Counter+10 :  {{counter+10}}</p> -->
+                <!-- <button @click.ctrl="finishexam()">FinishExam</button> -->
+                <!-- <button @click.once="startExam">startExam</button> -->
+
+                <!-- lazy modifier-->
+                <!-- <p>{{message}}</p>
+                <input type="text" v-model.lazy="message"> -->
+
+
+                    <!--directive  v-once => render element just one time even it's property changed-->
+                    <p v-once>{{message}}</p>
+                    <input type="text" v-model="message">
+                    <h5>{{message}}</h5>
+
+                <!-- <button v-on:click="showalert">click me To display Alert</button> -->
+                <!-- <button @click="showalert">click me To display Alert</button> -->
+                <!-- short hand for v-on => @eventname="eventhandlere name"-->
+                <!-- v-for : loop over items-->
+                <!-- we need to dislay students in list format : every student name will be displayed in list item inisde list-->
+                <!-- <ul>
+                    <li>{{students[0].name}}</li>
+                    <li>{{students[1].name}}</li>
+                </ul> -->
+                <!-- <ul>
+                    <li v-for="std in students" :title="std.city">{{std.name}}</li>
+                </ul> -->
+                <!-- best practise when you write v-for bind with key attribute -->
+                <!-- <ul>
+                    <li v-for="std in students" :key="std.id" :title="std.city">{{std.name}}</li>
+                </ul> -->
+
+    </div>
+
+<!-- 
+    <div id="mainapp2">
+       <h4>{{intake}}</h4>
+    </div> -->
+    
+    
+    <!-- step 2 : create vue instance using Vue.createApp -->
+    <script>
+        // step 2 : create vue instance using Vue.createApp  return reference to created instance 
+      const app=  Vue.createApp({
+            data:()=>({
+                // reactive properties : you can bind with this properties 
+                message:"Hello World",
+                track:'Open Source',
+                intake:43,
+                branch:'Assiut',
+                counter:10,
+                degree:91,
+                welcomemessage:'<h2>Welcome in vue js course</h2>',
+                students:[
+                    {id:100,name:'ahmed',city:'cairo'},
+                    {id:200,name:'khaled',city:'alex'},
+                    {id:300,name:'ibraheem',city:'assiut'},
+                    {id:400,name:'moustafa',city:'asswan'},
+                    {id:500,name:'mohamed',city:'mansoura'},
+                ]
+            }),
+            methods:{
+                // create methods : concise expression for method creation
+                showalert:function(){
+                    alert('hello all');
+                },
+                finishexam(){
+                    alert('exam finished');
+                },
+                startExam(){
+                    alert('exam started');
+                }
+            }
+            //data: function return object (contains properties )
+            // data:function(){
+            //     return {
+
+            //     }
+            // }
+            // data:()=>{
+            //     return {
+                    
+            //     }
+            // }
+
+            // options : data (properties : bind : one way | two way  with it )
+            /*
+                methods
+                components
+                emits
+                computed
+                tempate
+                watch
+            */
+        })
+        //3- mounting step  : using mount caller =>  reated instance using createApp
+       // app.mount('#mainapp'); // mount (css selector : map one html element ) mount('p') ,mount('id selector')
+    //    app.mount('#mainp');
+    //app.mount('p');
+    app.mount('#mainapp');
+
+
+// const app2= Vue.createApp({
+//     data:()=>({
+//         intake:43
+//     })
+// })
+// app2.mount('#mainapp2');
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Lab 1</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .less {
+            background-color: #f8d7da;
+            border: 2px solid #dc3545;
+        }
+        .more {
+            background-color: #d1e7dd;
+            border: 2px solid #198754;
+        }
+        .card {
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .book-img {
+            height: 300px;
+            object-fit: cover;
+        }
+        .wishlist-section {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container py-5">
+        <!-- <h1 class="text-center mb-5">Book Store</h1> -->
+
+        <!-- <div class="mb-5">
+            <h3>Book Directory</h3>
+            <ul class="list-group">
+                <li v-for="book in books" :key="book.ISBN" class="list-group-item" :title="book.author">
+                    {{ book.Name }}
+                </li>
+            </ul>
+        </div> -->
+
+        <!-- <hr> -->
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div v-for="book in books" :key="book.ISBN" class="col">
+                <div class="card h-100" :class="book.numberofpage < 50 ? 'less' : 'more'">
+                    <img :src="book.image" class="card-img-top book-img" :alt="book.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.Name }}</h5>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-primary">{{ book.category }}</span>
+                            <span class="text-muted">By: {{ book.author }}</span>
+                        </div>
+                        <div class="row text-center mb-3">
+                            <div class="col border-end">
+                                <strong>#Pages</strong><br>{{ book.numberofpage }}
+                            </div>
+                            <div class="col">
+                                <strong>Price</strong><br>{{ formatPrice(book.price) }}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">ISBN: {{ book.ISBN }}</small>
+                            <button class="btn btn-primary" @click="addToWishlist(book)" :disabled="isInWishlist(book.ISBN)">
+                                {{ isInWishlist(book.ISBN) ? 'Added' : 'Add To List' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <button class="btn btn-success btn-lg" @click="isWishlistVisible = !isWishlistVisible">
+                {{ isWishlistVisible ? 'Hide' : 'Display' }} Wish List ({{ wishlist.length }})
+            </button>
+        </div>
+
+        <div v-if="isWishlistVisible" class="wishlist-section shadow-sm">
+            <h2 class="mb-4">Your Wish List</h2>
+            <div v-if="wishlist.length === 0" class="alert alert-info">
+                Your wish list is empty.
+            </div>
+            <table v-else class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ISBN</th>
+                        <th>Name</th>
+                        <th>Author</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in wishlist" :key="item.ISBN">
+                        <td>{{ item.ISBN }}</td>
+                        <td>{{ item.Name }}</td>
+                        <td>{{ item.author }}</td>
+                        <td>{{ formatPrice(item.price) }}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" @click="removeFromWishlist(item.ISBN)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
